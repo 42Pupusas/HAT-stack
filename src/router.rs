@@ -1,9 +1,9 @@
 use anyhow::Context;
 use axum::{routing, Router};
-use navigator::html::{homepage, navigator, visions, send_note, check_in, about, keys};
 use tower_http::services::ServeDir;
 use tracing::info;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+use utils::html::{homepage, about};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -14,39 +14,26 @@ async fn main() -> anyhow::Result<()> {
                 .unwrap_or_else(|_| "info".into()),
         )
         .init();
-    info!("Launching the Guild Navigator...");
-    
-    // Get route to self
+    info!("Cargando rutas...");
+
     let src_path = std::env::current_dir().unwrap();
 
-    //    // Microservices to interact with relays
-    //    let api_router = Router::new()
-    //        .route("/notebook", routing::post(notebook))
 
     let port = 6900_u16;
     let addr = std::net::SocketAddr::from(([0, 0, 0, 0], port));
-    // info!("Assets path: {:?}", assets_path.to_str().unwrap());
     let router = Router::new()
         .route("/", routing::get(homepage))
-        .route("/login", routing::get(check_in))
         .route("/about", routing::get(about))
-        .route("/newKeys", routing::get(keys))
-        .route("/checkIn", routing::post(navigator))
-        .route("/filterRequest", routing::post(visions))
-        .route("/sendNote", routing::post(send_note))
-        .nest_service(
-            "/js",
-            ServeDir::new(format!("{}/public/js", src_path.to_str().unwrap())),
-        )
         .nest_service(
             "/styles",
             ServeDir::new(format!("{}/public/styles", src_path.to_str().unwrap())),
         );
-    info!("The Guild Navigator is in tank {}", addr);
+
+    info!("URL del servicio: {}", addr);
     axum::Server::bind(&addr)
         .serve(router.into_make_service())
         .await
-        .context("Folding internet-space...")
-        .expect("Not enough melange in the tank.");
+        .context("Servicio fallo")
+        .expect("Servicio fallo");
     Ok(())
 }

@@ -1,21 +1,6 @@
-# Geppeto Navigator
+# HAT Stack 
 
-A simple Nostr explorer built using Axum and HTMX. Find events on any 
-relay using custom filters. Post any kind of event you like.
-
-Supports `NIP-07` and `hex key` signing. 
-
-## Demo Version
-
-A client is maintained [here](https://geppeto.lat).
-
-## TODO
-
-I will slowly add the following features:
-
-- Relay pools
-- Send tagged events
-- Find event trees
+Simple DEMO of HTMX templates being served over Axum. Styling is handled using taliwind.
 
 ## Support 
 

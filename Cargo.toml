@@ -1,14 +1,14 @@
 [package]
-name = "g-navigator"
+name = "reservas"
 version = "0.1.0"
 edition = "2021"
 
 [lib]
-name = "navigator"
+name = "utils"
 path = "src/lib/lib.rs"
 
 [[bin]]
-name = "navigator"
+name = "router"
 path = "src/router.rs"
 
 [dependencies]
